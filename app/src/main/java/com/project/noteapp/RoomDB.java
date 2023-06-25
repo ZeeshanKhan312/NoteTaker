@@ -22,5 +22,5 @@ public abstract class RoomDB extends RoomDatabase {
         return database;
     }
 
-    public abstract NotesDAO NotesDao();
+    public abstract NotesDAO notesDao();
 }

@@ -1,6 +1,8 @@
 package com.project.noteapp;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,18 +63,21 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.viewHolder> 
             holder.pinned.setImageResource(0);
 
         int colorCode= getRandomColor();
-        holder.notesContainer.setCardBackgroundColor(colorCode);  //doubt ?? :: 55
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            holder.notesContainer.setCardBackgroundColor(holder.itemView.getResources().getColor(colorCode,null));  //doubt ?? :: 55
+        }
 
         holder.notesContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+               listener.onClick(notesList.get(holder.getAdapterPosition()));
             }
         });
 
         holder.notesContainer.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
+                listener.onLongClick(notesList.get(holder.getAdapterPosition()),holder.notesContainer);
                 return true;
             }
         });
@@ -81,6 +86,11 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.viewHolder> 
     @Override
     public int getItemCount() {
         return notesList.size();
+    }
+
+    public void search(List<Notes> filteredList){
+        notesList=filteredList;
+        notifyDataSetChanged();
     }
 
 //  to get a random color
@@ -94,7 +104,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.viewHolder> 
 
         Random random = new Random();
         int randomColor= random.nextInt(colorCode.size());
-        return  randomColor;
+        return  colorCode.get(randomColor);
     }
 
 }

@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey;
 import java.io.Serializable;
 
 @Entity(tableName = "notes")
-public class Notes implements Serializable {
+public class Notes implements Serializable {  //implement serializable because notes object will be directly be passed inside INTENT!!
     @PrimaryKey(autoGenerate = true)
     int id=0;
     @ColumnInfo(name = "title")
@@ -16,6 +16,10 @@ public class Notes implements Serializable {
     String text="";
     @ColumnInfo(name = "date")
     String date="";
+
+    public Notes() {
+    }
+
     @ColumnInfo(name = "pinned")
     boolean pinned=false;
 
